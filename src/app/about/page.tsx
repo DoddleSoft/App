@@ -2,8 +2,8 @@
 
 import { useEffect, useRef } from "react";
 import Link from "next/link";
-import Navbar from "../../components/navbar";
-import Footer from "../../components/footer";
+import Navbar from "../../../components/navbar";
+import Footer from "../../../components/footer";
 
 const WAVES = [
   {
@@ -133,18 +133,38 @@ export default function Home() {
       <div className="relative z-10 flex flex-col min-h-screen">
         <Navbar />
 
-        <div className="flex-1 flex flex-col items-center justify-center px-6 text-right">
-          <div className="flex flex-col items-end">
-            <h1 className="text-white text-8xl uppercase font-recoleta [-webkit-text-stroke:2px_white] tracking-tight leading-tight mb-4">
-              Your Business
-            </h1>
-            <h3 className="text-5xl font-recoleta text-gray-200/90 max-w-3xl">
-              minus the boring part
-            </h3>
+        {/* ABOUT US CONTENT LAYER */}
+        <div className="flex-1 flex flex-col items-center justify-center px-6 py-20">
+          <div className="max-w-6xl w-full gap-16 items-center">
+            {/* Left Side: Statement */}
+            <div className="space-y-6">
+              <h2 className="text-white text-6xl uppercase font-recoleta [-webkit-text-stroke:2px_white] tracking-tight leading-tight">
+                We build Digital flow
+              </h2>
+              <p className="text-gray-200 text-lg max-w-4xl text-body leading-relaxed">
+                At DoddleSoft, we craft high-performance apps that turn your
+                toughest business challenges into simple, seamless solutions
+                (doddles)—no headaches required.
+              </p>
+            </div>
+            <Link
+              href={"/contact"}
+              className="inline-flex items-center gap-2 bg-orange-200 text-black px-6 py-3 rounded-full mt-10 font-bold hover:bg-orange-300 transition-colors"
+            >
+              Get in Touch
+              <svg
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="3"
+              >
+                <path d="M5 12h14M12 5l7 7-7 7" />
+              </svg>
+            </Link>
           </div>
         </div>
-
-        <Footer />
       </div>
     </main>
   );
