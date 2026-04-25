@@ -1,0 +1,27 @@
+@import "tailwindcss";
+
+@theme {
+  /* This replaces your tailwind.config.ts config */
+  --font-sans:
+    "Inter var", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif,
+    "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+
+  --font-vw-title: clamp(2.5rem, 8vw, 6rem);
+  --font-vw-body: clamp(1rem, 2vw, 1.5rem);
+  --font-recoleta: var(--font-recoleta);
+}
+
+:root {
+  --foreground-rgb: 255, 255, 255;
+  --background-start-rgb: 9, 9, 11;
+  --background-end-rgb: 9, 9, 11;
+}
+
+body {
+  color: rgb(var(--foreground-rgb));
+  background: rgb(var(--background-start-rgb));
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
