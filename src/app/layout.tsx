@@ -20,7 +20,7 @@ export const metadata: Metadata = {
 
 const recoleta = localFont({
   src: "../../public/fonts/Recoleta-RegularDEMO.otf",
-  variable: "--font-recoleta", // This creates a CSS variable
+  variable: "--font-recoleta",
 });
 
 export default function RootLayout({

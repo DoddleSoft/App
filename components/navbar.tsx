@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import Image from "next/image";
 
 export default function Navbar() {
   const pathname = usePathname();
@@ -17,8 +18,16 @@ export default function Navbar() {
 
   return (
     <nav className="flex items-center justify-between px-12 py-8 relative z-50">
-      <Link href="/">
-        <p className="font-bold text-2xl tracking-tighter cursor-pointer">
+      <Link href="/" className="flex items-center gap-2 group">
+        <Image
+          src="/logo.svg"
+          alt="DoddleSoft Logo"
+          width={30}
+          height={30}
+          priority
+          className="transition-transform group-hover:scale-105"
+        />
+        <p className="font-bold ms-1 text-2xl tracking-tighter cursor-pointer">
           DoddleSoft
         </p>
       </Link>
