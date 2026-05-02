@@ -39,17 +39,21 @@ export default function Products() {
       layers.forEach((el) => (el.style.animationPlayState = "running"));
     };
 
-    const handleWheel = () => {
+    const handleScroll = () => {
       play();
       if (timeoutRef.current) clearTimeout(timeoutRef.current);
       timeoutRef.current = setTimeout(pause, 300);
     };
 
-    window.addEventListener("wheel", handleWheel, { passive: true });
+    // Listen to both wheel (desktop) and touchmove (mobile)
+    window.addEventListener("wheel", handleScroll, { passive: true });
+    window.addEventListener("touchmove", handleScroll, { passive: true });
+
     pause();
 
     return () => {
-      window.removeEventListener("wheel", handleWheel);
+      window.removeEventListener("wheel", handleScroll);
+      window.removeEventListener("touchmove", handleScroll);
       if (timeoutRef.current) clearTimeout(timeoutRef.current);
     };
   }, []);
@@ -76,7 +80,8 @@ export default function Products() {
             style={{
               position: "absolute",
               inset: 0,
-              width: "200%",
+              // FIX: Ensures wave doesn't get squished on tall mobile screens
+              width: "max(200vw, 400vh, 2560px)",
               willChange: "transform",
               animationName: "waveScroll",
               animationDuration: wave.duration,
@@ -102,30 +107,32 @@ export default function Products() {
       <div className="relative z-10 flex flex-col min-h-screen">
         <Navbar />
 
-        {/* PRODUCT CARDS SECTION */}
-        <div className="flex-1 flex flex-col items-center justify-center px-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-20 w-full max-w-6xl">
+        {/* PRODUCT CARDS SECTION - Tighter padding on mobile to prevent scroll */}
+        <div className="flex-1 flex flex-col items-center justify-center px-4 md:px-12 py-4 md:py-16">
+          {/* Reduced gap on mobile */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-10 lg:gap-20 w-full max-w-6xl">
             {PRODUCTS.map((product, idx) => (
               <div
                 key={idx}
-                className={`group relative bg-white/5 backdrop-blur-md border border-white/10 p-10 rounded-xl transition-all duration-500 hover:-translate-y-1 hover:bg-white/10
-          flex flex-col md:even:items-end md:even:text-right md:odd:items-start md:odd:text-left items-start text-left`}
+                className={`group relative bg-white/[0.03] backdrop-blur-md border border-white/10 
+                  p-6 md:p-10 rounded-3xl md:rounded-4xl transition-all duration-500 hover:-translate-y-1 hover:bg-white/[0.08] shadow-2xl
+                  flex flex-col items-center text-center md:even:items-end md:even:text-right md:odd:items-start md:odd:text-left`}
               >
-                <span className="text-md uppercase tracking-widest text-orange-200 font-semibold mb-4 block">
+                <span className="text-[10px] md:text-xs uppercase tracking-widest text-orange-300 font-bold mb-2 md:mb-4 block">
                   {product.tag}
                 </span>
 
-                <h2 className="text-5xl font-bold mb-4 font-recoleta uppercase tracking-tight leading-tight">
+                <h2 className="text-3xl md:text-5xl font-bold mb-2 md:mb-4 font-recoleta uppercase tracking-tight leading-tight">
                   {product.title}
                 </h2>
 
-                <p className="text-gray-200 text-lg mb-8 leading-relaxed max-w-md">
+                <p className="text-gray-300 text-sm md:text-lg mb-4 md:mb-8 leading-relaxed max-w-md">
                   {product.description}
                 </p>
 
                 <Link
                   href={product.link}
-                  className="inline-flex items-center gap-2 bg-orange-200 text-black px-6 py-3 rounded-full font-bold hover:bg-orange-300 transition-colors"
+                  className="inline-flex items-center justify-center gap-2 bg-orange-200 text-black px-5 py-2.5 md:px-6 md:py-3 rounded-xl md:rounded-2xl font-bold hover:bg-orange-300 transition-all hover:scale-[1.02] active:scale-[0.98] uppercase tracking-tighter text-sm md:text-base shadow-xl"
                 >
                   View Project
                   <svg
@@ -135,6 +142,7 @@ export default function Products() {
                     fill="none"
                     stroke="currentColor"
                     strokeWidth="3"
+                    className="w-4 h-4 md:w-5 md:h-5"
                   >
                     <path d="M5 12h14M12 5l7 7-7 7" />
                   </svg>

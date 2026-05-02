@@ -5,7 +5,7 @@ import Link from "next/link";
 import Navbar from "../../../components/navbar";
 import { WAVES } from "../../../utils/WAVES";
 
-export default function Home() {
+export default function AboutUs() {
   const bgRef = useRef<HTMLDivElement>(null);
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -22,7 +22,7 @@ export default function Home() {
       layers.forEach((el) => (el.style.animationPlayState = "running"));
     };
 
-    const handleWheel = () => {
+    const handleScroll = () => {
       play();
       // Clear any existing stop timer
       if (timeoutRef.current) clearTimeout(timeoutRef.current);
@@ -30,12 +30,16 @@ export default function Home() {
       timeoutRef.current = setTimeout(pause, 300);
     };
 
-    window.addEventListener("wheel", handleWheel, { passive: true });
+    // Listen for desktop scroll (wheel) AND mobile swipe (touchmove)
+    window.addEventListener("wheel", handleScroll, { passive: true });
+    window.addEventListener("touchmove", handleScroll, { passive: true });
+
     // Start paused
     pause();
 
     return () => {
-      window.removeEventListener("wheel", handleWheel);
+      window.removeEventListener("wheel", handleScroll);
+      window.removeEventListener("touchmove", handleScroll);
       if (timeoutRef.current) clearTimeout(timeoutRef.current);
     };
   }, []);
@@ -62,7 +66,8 @@ export default function Home() {
             style={{
               position: "absolute",
               inset: 0,
-              width: "200%",
+              // THIS IS THE FIX: Matches your Home page so waves don't distort on mobile
+              width: "max(200vw, 400vh, 2560px)",
               willChange: "transform",
               animationName: "waveScroll",
               animationDuration: wave.duration,
@@ -89,14 +94,14 @@ export default function Home() {
         <Navbar />
 
         {/* ABOUT US CONTENT LAYER */}
-        <div className="flex-1 flex flex-col items-center justify-center px-6 py-20">
-          <div className="max-w-6xl w-full gap-16 items-center">
+        <div className="flex-1 flex flex-col items-center justify-center px-6 py-12 md:py-20">
+          <div className="max-w-6xl w-full gap-10 md:gap-16 items-center">
             {/* Left Side: Statement */}
             <div className="space-y-6">
-              <h2 className="text-white text-6xl uppercase font-recoleta [-webkit-text-stroke:2px_white] tracking-tight leading-tight">
+              <h2 className="text-white text-4xl md:text-6xl uppercase font-recoleta [-webkit-text-stroke:1px_white] md:[-webkit-text-stroke:2px_white] tracking-tight leading-tight">
                 We build Digital flow
               </h2>
-              <p className="text-gray-200 text-lg max-w-4xl text-body leading-relaxed">
+              <p className="text-gray-200 text-base md:text-lg max-w-4xl text-body leading-relaxed">
                 At DoddleSoft, we craft high-performance apps that turn your
                 toughest business challenges into simple, seamless solutions
                 (doddles)—no headaches required.
@@ -104,7 +109,7 @@ export default function Home() {
             </div>
             <Link
               href={"/contact"}
-              className="inline-flex items-center gap-2 bg-orange-200 text-black px-6 py-3 rounded-full mt-10 font-bold hover:bg-orange-300 transition-colors"
+              className="inline-flex items-center gap-2 bg-orange-200 text-black px-6 py-3  rounded-xl md:rounded-2xl mt-8 md:mt-10 font-bold hover:bg-orange-300 transition-colors"
             >
               Get in Touch
               <svg

@@ -48,10 +48,10 @@ export default function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="py-8 px-12 text-sm text-gray-400 relative z-50">
-      <div className="max-w-full mx-auto flex flex-col md:flex-row justify-between items-center md:items-end gap-4">
+    <footer className="py-8 px-6 md:px-12 text-sm text-gray-400 relative z-50">
+      <div className="max-w-full mx-auto flex flex-col md:flex-row justify-between items-center md:items-end gap-8 md:gap-4">
         {/* Left Section: Brand & Copyright */}
-        <div className="text-left">
+        <div className="text-center md:text-left">
           <p className="font-bold text-white">DoddleSoft</p>
           <p>&copy; {currentYear} All rights reserved.</p>
         </div>
@@ -103,7 +103,7 @@ export default function Footer() {
               <circle cx="12" cy="10" r="3" />
             </svg>
             <span className="hover:text-gray-200 transition-colors cursor-default">
-              123-Southampton, Foundry lane, UK
+              127 Foundry lane, Southampton, UK
             </span>
           </div>
 

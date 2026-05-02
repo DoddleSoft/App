@@ -22,20 +22,24 @@ export default function Home() {
       layers.forEach((el) => (el.style.animationPlayState = "running"));
     };
 
-    const handleWheel = () => {
+    const handleActivity = () => {
       play();
       // Clear any existing stop timer
       if (timeoutRef.current) clearTimeout(timeoutRef.current);
-      // Pause ~300ms after scrolling stops
+      // Pause ~300ms after scrolling/swiping stops
       timeoutRef.current = setTimeout(pause, 300);
     };
 
-    window.addEventListener("wheel", handleWheel, { passive: true });
+    // Listen to both wheel (desktop) and touchmove (mobile)
+    window.addEventListener("wheel", handleActivity, { passive: true });
+    window.addEventListener("touchmove", handleActivity, { passive: true });
+
     // Start paused
     pause();
 
     return () => {
-      window.removeEventListener("wheel", handleWheel);
+      window.removeEventListener("wheel", handleActivity);
+      window.removeEventListener("touchmove", handleActivity);
       if (timeoutRef.current) clearTimeout(timeoutRef.current);
     };
   }, []);
@@ -49,7 +53,7 @@ export default function Home() {
         }
       `}</style>
 
-      {/* BACKGROUND — fixed, scroll-driven animation */}
+      {/* BACKGROUND — fixed, scroll/touch-driven animation */}
       <div
         ref={bgRef}
         className="fixed inset-0 z-0 pointer-events-none overflow-hidden"
@@ -62,7 +66,8 @@ export default function Home() {
             style={{
               position: "absolute",
               inset: 0,
-              width: "200%",
+              // Enforcing min-width keeps desktop wave curves intact on mobile
+              width: "max(200vw, 2560px)",
               willChange: "transform",
               animationName: "waveScroll",
               animationDuration: wave.duration,
@@ -88,12 +93,13 @@ export default function Home() {
       <div className="relative z-10 flex flex-col min-h-screen">
         <Navbar />
 
-        <div className="flex-1 flex flex-col items-center justify-center px-6 text-right">
-          <div className="flex flex-col items-end">
-            <h1 className="text-white text-8xl uppercase font-recoleta [-webkit-text-stroke:2px_white] tracking-tight leading-tight mb-4">
+        <div className="flex-1 flex flex-col items-center justify-center px-4 sm:px-6 text-center md:text-right">
+          {/* Removed w-full max-w-5xl so the block centers automatically like your original code */}
+          <div className="flex flex-col items-center md:items-end">
+            <h1 className="text-white text-5xl sm:text-6xl md:text-8xl uppercase font-recoleta [-webkit-text-stroke:1px_white] md:[-webkit-text-stroke:2px_white] tracking-tight leading-tight mb-2 md:mb-4">
               Your Business
             </h1>
-            <h3 className="text-5xl font-recoleta text-gray-200/90 max-w-3xl">
+            <h3 className="text-2xl sm:text-3xl md:text-5xl font-recoleta text-gray-200/90 max-w-3xl">
               minus the boring part
             </h3>
           </div>
